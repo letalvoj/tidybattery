@@ -22,7 +22,7 @@ import gobject
 import subprocess
 
 ACPI_CMD = 'acpi'
-TIMEOUT = 2
+TIMEOUT = 10
 
 class MainApp:
         def __init__(self):
@@ -44,23 +44,23 @@ class MainApp:
                                 }
 
         def get_icon_name(self, state, percentage):
-                if state == 'Discharging':
+            if state == 'Discharging' || state == 'Unknown':
                         if percentage < 10:
                                 return 'battery_empty'
                         elif percentage < 20:
-                                return 'battery_caution'
+                                return 'battery-caution'
                         elif percentage < 40:
-                                return 'battery_low'
+                                return 'battery-low'
                         elif percentage < 60:
                                 return 'battery_two_thirds'
                         elif percentage < 75:
-                                return 'battery_third_fouth'
+                                return 'battery_third_fourth'
                         else:
                                 return 'battery_full'
                 elif state == 'Charged':
                         return 'battery_charged'
-                elif state == 'Unknown':
-                        return 'dialog-question'
+#                elif state == 'Unknown':
+#                        return 'dialog-question'
                 else:
                         return 'battery_plugged'
 
