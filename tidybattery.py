@@ -44,7 +44,7 @@ class MainApp:
                                 }
 
         def get_icon_name(self, state, percentage):
-            if state == 'Discharging' || state == 'Unknown':
+                if state == 'Discharging' or state == 'Unknown':
                         if percentage < 10:
                                 return 'battery_empty'
                         elif percentage < 20:
@@ -59,8 +59,6 @@ class MainApp:
                                 return 'battery_full'
                 elif state == 'Charged':
                         return 'battery_charged'
-#                elif state == 'Unknown':
-#                        return 'dialog-question'
                 else:
                         return 'battery_plugged'
 
