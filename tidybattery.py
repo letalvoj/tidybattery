@@ -20,11 +20,15 @@
 import gtk
 import gobject
 import subprocess
+import os
 
 ACPI_CMD = 'acpi'
 TIMEOUT = 10
 
 class MainApp:
+
+        last = 100
+
         def __init__(self):
                 self.icon = gtk.StatusIcon()
                 self.update_icon()
@@ -62,11 +66,22 @@ class MainApp:
                 else:
                         return 'battery_plugged'
 
+        def notify_state(self, state, percentage):
+                if self.last > percentage and (state == 'Discharging' or state == 'Unknown'):
+                        if percentage < 5:
+                            os.system('notify-send -i battery-caution -t 7500 "Batery critical" "less than 5% left"')
+                        elif percentage < 10:
+                            os.system('notify-send -i battery-caution -t 5000 "Batery low" "less than 10% left"')
+                        elif percentage < 25:
+                            os.system('notify-send -i battery-caution -t 2500 "Batery info" "less than 25% left"')
+
         def update_icon(self):
                 info = self.get_battery_info()
                 icon_name = self.get_icon_name(info['state'],info['percentage'])
                 self.icon.set_from_icon_name(icon_name)
                 self.icon.set_tooltip_text(info['tooltip'])
+                self.notify_state(info['state'],info['percentage'])
+                self.last = info['percentage']
                 return True
 
 if __name__ == "__main__":
@@ -75,5 +90,4 @@ if __name__ == "__main__":
                 gtk.main()
         except KeyboardInterrupt:
                 pass
-
 
