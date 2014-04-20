@@ -67,7 +67,8 @@ class MainApp:
                         return 'battery_plugged'
 
         def notify_state(self, state, percentage):
-                if self.last > percentage and (state == 'Discharging' or state == 'Unknown'):
+                if state == 'Discharging' or state == 'Unknown': 
+                    if self.last > percentage:
                         if percentage < 5:
                             os.system('notify-send -i battery-caution -t 7500 "Batery critical" "less than 5% left"')
                         elif percentage < 10:
