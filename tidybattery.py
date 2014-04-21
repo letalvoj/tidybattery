@@ -67,14 +67,15 @@ class MainApp:
                         return 'battery_plugged'
 
         def notify_state(self, state, percentage):
+                notify = 'notify-send -i battery-caution -t 5000 "Battery {info}" "less than {percent}% left"'
                 if state == 'Discharging' or state == 'Unknown': 
                     if self.last > percentage:
-                        if percentage < 5:
-                            os.system('notify-send -i battery-caution -t 7500 "Batery critical" "less than 5% left"')
-                        elif percentage < 10:
-                            os.system('notify-send -i battery-caution -t 5000 "Batery low" "less than 10% left"')
-                        elif percentage < 25:
-                            os.system('notify-send -i battery-caution -t 2500 "Batery info" "less than 25% left"')
+                        if percentage == 5:
+                            os.system(notify.format(info='critical', percent=percentage))
+                        elif percentage == 10:
+                            os.system(notify.format(info='low', percent=percentage))
+                        elif percentage == 25:
+                            os.system(notify.format(info='warning', percent=percentage))
 
         def update_icon(self):
                 info = self.get_battery_info()
