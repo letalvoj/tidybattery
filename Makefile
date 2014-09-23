@@ -1,14 +1,17 @@
+INSTALL_DIR=/usr/local/lib/tidybattery
+BIN_DIR=/usr/local/bin
 all:
 	echo "Use with install or uninstall parameter only"
 
 install: check
-	cp -a tidybattery.py /usr/local/lib/tidybattery.py
-	ln -s /usr/local/lib/tidybattery.py /usr/local/bin/tidybattery 
-	chmod a+x /usr/local/lib/tidybattery.py
+	mkdir $(INSTALL_DIR)
+	chmod a+x tidybattery.py
+	cp -ra icons tidybattery.py $(INSTALL_DIR)
+	ln -s $(INSTALL_DIR)/tidybattery.py $(BIN_DIR)/tidybattery 
 
 uninstall:
-	rm /usr/local/lib/tidybattery.py || echo not there
-	rm /usr/local/bin/tidybattery || echo not there
+	rm -rf $(INSTALL_DIR) || echo folder not there
+	rm $(BIN_DIR)/tidybattery || echo file not there
 
 check:
 	which notify-send
